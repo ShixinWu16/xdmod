@@ -415,7 +415,7 @@ class MySQLHelper
         $port,
         $username,
         $password,
-        $localHost,
+        $xdmodHost,
         $dbUsername,
         $dbPassword
     ) {
@@ -429,8 +429,8 @@ class MySQLHelper
             . " CREATE ROUTINE, ALTER ROUTINE, EVENT, RELOAD, FILE,"
             . " CREATE TABLESPACE, PROCESS, REFERENCES,"
             . " LOCK TABLES"
-            . " ON *.* TO '$dbUsername'@'$localHost'"
-            . " IDENTIFIED BY '$dbPassword';FLUSH PRIVILEGES;";
+            . " ON *.* TO '$dbUsername'@'$xdmodHost';"
+            . " FLUSH PRIVILEGES;";
 
         static::staticExecuteStatement(
             $host,

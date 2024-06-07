@@ -80,8 +80,9 @@ then
 
     copy_template_httpd_conf
     ~/bin/services start
-    mysql -e "CREATE USER 'root'@'gateway' IDENTIFIED BY '';
-    GRANT ALL PRIVILEGES ON *.* TO 'root'@'gateway' WITH GRANT OPTION;
+
+    mysql -h mariadb -e "CREATE USER 'root'@'xdmod' IDENTIFIED BY '';
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'xdmod' WITH GRANT OPTION;
     FLUSH PRIVILEGES;"
 
     # TODO: Replace diff files with hard fixes
@@ -155,8 +156,7 @@ fi
 
 if [ "$XDMOD_TEST_MODE" = "upgrade" ];
 then
-    # Install the newly built RPM.
-    dnf -y install ~/rpmbuild/RPMS/*/*.rpm
+    yum -y install ~/rpmbuild/RPMS/*/*.rpm
 
     copy_template_httpd_conf
     sed -i 's#http://localhost:8080#https://localhost#' /etc/xdmod/portal_settings.ini

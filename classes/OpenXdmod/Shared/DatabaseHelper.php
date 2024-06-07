@@ -38,16 +38,27 @@ class DatabaseHelper
         $console->displayMessage(
             'Creating User ' . $settings['db_user']
         );
-        // TODO: If db_host is not localhost, need to set $localHost to
-        // the correct hostname or IP address.
-        $localHost = $settings['db_host'];
+
+        MySQLHelper::staticExecuteStatement(
+            $settings['db_host'],
+            $settings['db_port'],
+            $username,
+            $password,
+            null,
+            sprintf(
+                "CREATE USER '%s'@'%s' IDENTIFIED BY '%s';",
+                $settings['db_user'],
+                $settings['xdmod_host'],
+                $settings['db_pass']
+            )
+        );
 
         MySQLHelper::grantAllPrivileges(
             $settings['db_host'],
             $settings['db_port'],
             $username,
             $password,
-            $localHost,
+            $settings['xdmod_host'],
             $settings['db_user'],
             $settings['db_pass']
         );
@@ -97,10 +108,6 @@ class DatabaseHelper
                 $database
             );
 
-            // TODO: If db_host is not localhost, need to set $localHost to
-            // the correct hostname or IP address.
-            $localHost = $settings['db_host'];
-
             $console->displayMessage(
                 "Granting privileges on database `$database`."
             );
@@ -110,7 +117,7 @@ class DatabaseHelper
                 $username,
                 $password,
                 $database,
-                $localHost,
+                $settings['xdmod_host'],
                 $settings['db_user'],
                 $settings['db_pass']
             );
