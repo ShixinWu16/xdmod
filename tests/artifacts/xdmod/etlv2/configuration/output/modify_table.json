@@ -2,12 +2,12 @@
   "comment": "",
   "engine": "myisam",
   "charset": "utf8mb4",
-  "collation": "utf8mb4_unicode_ci",
+  "collation": "utf8mb4_general_ci",
   "columns": [
     {
       "type": "varchar(40)",
       "charset": "utf8mb4",
-      "collation": "utf8mb4_unicode_ci",
+      "collation": "utf8mb4_general_ci",
       "nullable": true,
       "default": null,
       "extra": null,
@@ -18,7 +18,7 @@
     {
       "type": "varchar(40)",
       "charset": "utf8mb4",
-      "collation": "utf8mb4_unicode_ci",
+      "collation": "utf8mb4_general_ci",
       "nullable": true,
       "default": null,
       "extra": null,
