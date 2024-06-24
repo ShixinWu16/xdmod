@@ -342,6 +342,35 @@ class MySQLHelper
             throw new Exception($msg);
         }
     }
+    /*
+    */
+    public static function userExists(
+        $host,
+        $port,
+        $dbusername,
+        $dbpassword,
+        $userName
+    ) {
+        $stmt = "SELECT User FROM mysql.user WHERE User = '$userName'";
+        $output = static::staticExecuteStatement(
+            $host,
+            $port,
+            $dbusername,
+            $dbpassword,
+            null,
+            $stmt
+        );
+
+        if (count($output) == 0) {
+            return false;
+        } elseif (count($output) == 1 && $output[0] == $userName) {
+            return true;
+        } else {
+            $msg = 'Failed to check for existence of user: '
+                . implode("\n", $output);
+            throw new Exception($msg);
+        }
+    }
 
     /**
      * Create a database.
@@ -460,11 +489,11 @@ class MySQLHelper
         $username,
         $password,
         $dbName,
-        $localHost,
+        $xdmodHost,
         $dbUsername,
         $dbPassword
     ) {
-        $stmt = "GRANT ALL ON $dbName.* TO '$dbUsername'@'$localHost'"
+        $stmt = "GRANT ALL ON $dbName.* TO '$dbUsername'@'$xdmodHost'"
             . " IDENTIFIED BY '$dbPassword'";
 
         static::staticExecuteStatement(

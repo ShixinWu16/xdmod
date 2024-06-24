@@ -2,6 +2,7 @@
 
 namespace OpenXdmod\Shared;
 
+use CCR\DB;
 use CCR\DB\MySQLHelper;
 use OpenXdmod\Setup\Console;
 
@@ -24,6 +25,7 @@ class DatabaseHelper
      * @param Console $console (Optional) The console to use to prompt the user.
      *                         If not provided, one will be obtained.
      */
+
     public static function createDatabases(
         $username,
         $password,
@@ -35,34 +37,41 @@ class DatabaseHelper
             $console = Console::factory();
         }
 
-        $console->displayMessage(
-            'Creating User ' . $settings['db_user']
-        );
 
-        MySQLHelper::staticExecuteStatement(
+        $rows = MySQLHelper::userExists(
             $settings['db_host'],
             $settings['db_port'],
             $username,
             $password,
-            null,
-            sprintf(
-                "CREATE USER '%s'@'%s' IDENTIFIED BY '%s';",
-                $settings['db_user'],
+            $settings['db_user']
+        );
+        if (empty($rows)) {
+            $console->displayMessage(
+                'Creating User ' . $settings['db_user']
+            );
+            MySQLHelper::staticExecuteStatement(
+                $settings['db_host'],
+                $settings['db_port'],
+                $username,
+                $password,
+                null,
+                sprintf(
+                    "CREATE USER '%s'@'%s' IDENTIFIED BY '%s';",
+                    $settings['db_user'],
+                    $settings['xdmod_host'],
+                    $settings['db_pass']
+                )
+            );
+            MySQLHelper::grantAllPrivileges(
+                $settings['db_host'],
+                $settings['db_port'],
+                $username,
+                $password,
                 $settings['xdmod_host'],
+                $settings['db_user'],
                 $settings['db_pass']
-            )
-        );
-
-        MySQLHelper::grantAllPrivileges(
-            $settings['db_host'],
-            $settings['db_port'],
-            $username,
-            $password,
-            $settings['xdmod_host'],
-            $settings['db_user'],
-            $settings['db_pass']
-        );
-
+            );
+        }
         foreach ($databases as $database) {
             $console->displayBlankLine();
 
