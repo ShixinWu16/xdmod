@@ -349,9 +349,10 @@ class MySQLHelper
         $port,
         $dbusername,
         $dbpassword,
-        $userName
+        $userName,
+        $xdmod_host
     ) {
-        $stmt = "SELECT User FROM mysql.user WHERE User = '$userName'";
+        $stmt = "SELECT User FROM mysql.user WHERE User = '$userName' AND Host = '$xdmodHost'";
         $output = static::staticExecuteStatement(
             $host,
             $port,

@@ -43,11 +43,15 @@ class DatabaseHelper
             $settings['db_port'],
             $username,
             $password,
-            $settings['db_user']
+            $settings['db_user'],
+            $settings['xdmod_host']
         );
         if (empty($rows)) {
             $console->displayMessage(
                 'Creating User ' . $settings['db_user']
+            );
+            $console->displayMessage(
+                'Creating User with ' . $settings['db_user'] . ' on host ' . $settings['xdmod_host'] . ' with password ' . $settings['db_pass']
             );
             MySQLHelper::staticExecuteStatement(
                 $settings['db_host'],
@@ -59,8 +63,11 @@ class DatabaseHelper
                     "CREATE USER '%s'@'%s' IDENTIFIED BY '%s';",
                     $settings['db_user'],
                     $settings['xdmod_host'],
-                    $settings['db_pass']
+                    $settings['db_pass'],
                 )
+            );
+            $console->displayMessage(
+                'Created User'
             );
             MySQLHelper::grantAllPrivileges(
                 $settings['db_host'],
