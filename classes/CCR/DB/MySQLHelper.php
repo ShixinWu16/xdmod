@@ -343,7 +343,11 @@ class MySQLHelper
         }
     }
     /*
+    * Checks for existence of user
     */
+    /**
+     * @throws Exception
+     */
     public static function userExists(
         $host,
         $port,
@@ -352,7 +356,7 @@ class MySQLHelper
         $userName,
         $xdmod_host
     ) {
-        $stmt = "SELECT User FROM mysql.user WHERE User = '$userName' AND Host = '$xdmodHost'";
+        $stmt = "SELECT User, Host FROM mysql.user WHERE User = '$userName' AND Host = '$xdmod_host'";
         $output = static::staticExecuteStatement(
             $host,
             $port,
@@ -362,13 +366,19 @@ class MySQLHelper
             $stmt
         );
 
-        if (count($output) == 0) {
+        $output = preg_replace('/\s+/', ' ', $output);
+        $output = explode(' ', $output[0]);
+        echo var_export($output, true);
+
+        if (count($output) == 0 || (count($output) == 1 && $output[0] == '')) {
             return false;
-        } elseif (count($output) == 1 && $output[0] == $userName) {
+        } elseif (count($output) == 2 && $output[0] == $userName && $output[1]== $xdmod_host) {
             return true;
         } else {
             $msg = 'Failed to check for existence of user: '
-                . implode("\n", $output);
+                . implode("\n", array_map(function($row) {
+                    return $row[0] . ' ' . $row[1];
+                }, $output));
             throw new Exception($msg);
         }
     }

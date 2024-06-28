@@ -37,7 +37,6 @@ class DatabaseHelper
             $console = Console::factory();
         }
 
-
         $rows = MySQLHelper::userExists(
             $settings['db_host'],
             $settings['db_port'],
@@ -46,7 +45,10 @@ class DatabaseHelper
             $settings['db_user'],
             $settings['xdmod_host']
         );
-        if (empty($rows)) {
+        $console->displayMessage(
+                'rows retuned' . $rows
+        );
+        if ($rows == false) {
             $console->displayMessage(
                 'Creating User ' . $settings['db_user']
             );
@@ -69,16 +71,16 @@ class DatabaseHelper
             $console->displayMessage(
                 'Created User'
             );
-            MySQLHelper::grantAllPrivileges(
-                $settings['db_host'],
-                $settings['db_port'],
-                $username,
-                $password,
-                $settings['xdmod_host'],
-                $settings['db_user'],
-                $settings['db_pass']
-            );
         }
+        MySQLHelper::grantAllPrivileges(
+            $settings['db_host'],
+            $settings['db_port'],
+            $username,
+            $password,
+            $settings['xdmod_host'],
+            $settings['db_user'],
+            $settings['db_pass']
+        );
         foreach ($databases as $database) {
             $console->displayBlankLine();
 
