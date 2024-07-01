@@ -367,8 +367,12 @@ class MySQLHelper
         );
 
         $output = preg_replace('/\s+/', ' ', $output);
+        fwrite(STDERR, var_export($output, true));
+        if (!isset($output[0])) {
+            return false;
+        }
         $output = explode(' ', $output[0]);
-        echo var_export($output, true);
+        fwrite(STDERR, var_export($output, true));
 
         if (count($output) == 0 || (count($output) == 1 && $output[0] == '')) {
             return false;
