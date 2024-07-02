@@ -1,8 +1,8 @@
 {
   "comment": "",
   "engine": "myisam",
-  "charset": "utf8mb4",
-  "collation": "utf8mb4_general_ci",
+  "charset": "utf8",
+  "collation": "utf8_unicode_ci",
   "columns": [
     {
       "type": "int(11) unsigned",
@@ -17,8 +17,8 @@
     },
     {
       "type": "varchar(40)",
-      "charset": "utf8mb4",
-      "collation": "utf8mb4_general_ci",
+      "charset": "utf8",
+      "collation": "utf8_unicode_ci",
       "nullable": true,
       "default": null,
       "extra": null,
@@ -28,8 +28,8 @@
     },
     {
       "type": "varchar(16)",
-      "charset": "utf8mb4",
-      "collation": "utf8mb4_general_ci",
+      "charset": "utf8",
+      "collation": "utf8_unicode_ci",
       "nullable": false,
       "default": "first name",
       "extra": null,
@@ -39,8 +39,8 @@
     },
     {
       "type": "enum('Sample1','sample2')",
-      "charset": "utf8mb4",
-      "collation": "utf8mb4_general_ci",
+      "charset": "utf8",
+      "collation": "utf8_unicode_ci",
       "nullable": true,
       "default": null,
       "extra": null,
