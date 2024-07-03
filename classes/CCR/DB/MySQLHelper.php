@@ -367,13 +367,10 @@ class MySQLHelper
         );
 
         $output = preg_replace('/\s+/', ' ', $output);
-        fwrite(STDERR, var_export($output, true));
         if (!isset($output[0])) {
             return false;
         }
         $output = explode(' ', $output[0]);
-        fwrite(STDERR, var_export($output, true));
-
         if (count($output) == 0 || (count($output) == 1 && $output[0] == '')) {
             return false;
         } elseif (count($output) == 2 && $output[0] == $userName && $output[1]== $xdmod_host) {
